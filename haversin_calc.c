@@ -1,13 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
+#include <string.h>
 
 #define R 6371000
+#define MAX_CHAR 4096
 
+//When running compiled file ensure to give arg of file to be passed
 int main(int argc, char* argv[]){
 
-	//Sample running of haversin formula for calculating distance
-	
+	// Checking arg for multiple entries ensuring csv file name entered.
+	if( argc < 2 ){
+		printf("No arg entered on runtime for csv file\n");
+		return -1;
+	}
+
+	// Opening csv file
+	FILE *fp;
+	fp = fopen(argv[1], "r");
+
+	char row[MAX_CHAR];
+	// Parse through every row of the file until end is reached
+	while(feof(fp) != true)
+	{
+		fgets(row, MAX_CHAR, fp);
+		printf(row);
+		
+	}
 	// Return program success
 	return EXIT_SUCCESS;
 }
@@ -20,7 +40,7 @@ int haversinCalc(int lon1, int lon2, char we, int lat1, int lat2, char ns){
 	int phi1, phi2, delta_phi, delta_lambda;
 	// placeholder of PI
 	int PI = 3.1415962;
-	int PI_RAD = 3.141592/180;
+	int PI_RAD = PI/180;
 	phi1 = lat1*PI_RAD;
 	phi2 = lat2*PI_RAD;
 
