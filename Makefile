@@ -12,5 +12,5 @@ clean:
 	rm -rf haversin.o
 
 run:
-	$(BUILD_DIR)haversin.o 
+	$(BUILD_DIR)haversin.o gps_sample_data.csv
 
