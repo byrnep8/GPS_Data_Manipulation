@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <stdbool.h>
-#include <string.h>
+/*
+	C file to implement haversin formula for calculation of distance between 2 co-ordinates
 
-#define R 6371000
-#define MAX_CHAR 4096
+	Author:	Patrick Byrne
+	Date:	15-10-25
+*/
+#include "haversin_calc.h"
 
 //When running compiled file ensure to give arg of file to be passed
 int main(int argc, char* argv[]){

@@ -1,7 +1,10 @@
+INCLUDE=-I Include/
+BUILD_DIR=build/
+
 haversin:
 	echo off
 	echo "Compile haversin C file"
-	gcc -Wall haversin_calc.c -o haversin.o -lm
+	gcc -Wall $(INCLUDE) haversin_calc.c -o $(BUILD_DIR)haversin.o -lm
 	# chmod a+x haversin.o
 
 clean:
@@ -9,5 +12,5 @@ clean:
 	rm -rf haversin.o
 
 run:
-	./haversin.o 'activity_19091828100.tcx.xlsx - Sheet1.csv'
+	$(BUILD_DIR)haversin.o 
 
