@@ -4,7 +4,7 @@ BUILD_DIR=build/
 haversin:
 	echo off
 	echo "Compile haversin C file"
-	gcc -Wall $(INCLUDE) haversin_calc.c -o $(BUILD_DIR)haversin.o -lm
+	gcc -Wall -g $(INCLUDE) haversin_calc.c -o $(BUILD_DIR)haversin.o -lm
 	# chmod a+x haversin.o
 
 clean:

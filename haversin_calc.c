@@ -6,6 +6,18 @@
 */
 #include "haversin_calc.h"
 
+typedef struct GPS_Data{
+	int lat;
+	int lon;
+	int dist;
+	int hr;
+};
+
+typedef struct LL_GPS{
+	struct GPS_Data gps;
+	struct LL_GPS *next;
+};
+
 //When running compiled file ensure to give arg of file to be passed
 int main(int argc, char* argv[]){
 
@@ -25,83 +37,83 @@ int main(int argc, char* argv[]){
 		return -2;
 	}
 
-	char row[100];
-	char *s;
-	int lat, lon, alt, dist;
-	while(fgets(row, 100, fp )!= NULL)
-    {
-        s = strtok(row, ",");
-		for( int i=0; i < 30; i++)
-		{
-			strtok(NULL, ",");
-		}
-		lat = atoi(s);
- 
-        s = strtok(NULL, ",");
-        lon = atoi(s);
- 
-        s = strtok(NULL, ",");
-        dist = atoi(s);
+	struct LL_GPS *head = NULL;
+	char buffer[1000];
+	char *data;
+	float *lat, *lon, *dist;
+	int *hr;
+	int length = 0;
+
+	lat = (float*)calloc(sizeof(int), 1);
+	lon = (float*)calloc(sizeof(int), 1);
+	dist = (float*)calloc(sizeof(int), 1);
+	hr = (int*)calloc(sizeof(int), 1);
+	// Read in header line
+	fgets(buffer, sizeof(buffer), fp);
+	printf("%s\n", buffer);
+
+	// Parsing line
+	data = strtok(buffer, ",");
+	printf("First Token:\t%s\n", data);
+
+	for(int i = 2; i < 29; i++){
+		// Use Null to allow strtok to keep using buffer
+		data = strtok(NULL, ",");
+		printf("Token #%d:\t%s\n", i, data);
 	}
 
-	printf("%d", lat);
- 
-	/*
-	char row[MAX_CHAR];
-	char lat[6], lon[6], alt[10], dist[10];
+	// Read in header line
+	fgets(buffer, sizeof(buffer), fp);
+	printf("%s\n", buffer);
 
-	// Parse through every row of the file until end is reached
-	while(feof(fp) != true)
-	{
-		fgets(row, MAX_CHAR, fp);
-		printf(row);
+	// Parsing 2nd line
+	data = strtok(buffer, ",");
+	printf("First Token:\t%s\n", data);
+
+	// Reading first 20 elements, not needed
+	for(int i = 2; i < 20; i++){
+		// Use Null to allow strtok to keep using buffer
+		data = strtok(NULL, ",");
+		printf("Token #%d:\t%s\n", i, data);
+	}
+
+	// First elements Read
+	data = strtok(NULL, ",");
+	lat[length] = atof(data);
+	data = strtok(NULL, ",");
+	lon[length] = atof(data);
+	data = strtok(NULL, ",");
+	data = strtok(NULL, ",");
+	dist[length] = atof(data);
+	data = strtok(NULL, ",");
+	hr[length] = atoi(data);
+
+	printf("Latitude\t:%.4f\nLongitude\t:%.4f\nDistance:\t%.4f\nHR:\t\t%d\n", lat[length], lon[length], dist[length], hr[length]);
+	length++;
+
+	while( fgets(buffer, sizeof(buffer), fp) ){
+		// Print Buffer to terminal
+		// printf("%s\n", buffer);
+
+		// Read first 2 elements and discard them
+		data = strtok(buffer, ",");
 		
-		int col = 0;
-		int j = 0;
-		for( int i=0; i < 200; i++)
-		{
-			switch(row[i])
-			{
-				case ',':
-					//Delimiter reached
-					if(col < 29 || col > 32){
-						
-					}
-					else{
-						printf("\n");
-					}
-					col++;
-					break;
-				default:
-					if( col > 28 && col < 33){
-						// Parsing the first digit encountered
-						// printf("Col: %d\n", col);
+		data = strtok(NULL, ",");
+		// printf("Latitude:\t%s\n", data);
 
-						if( col < 30 )
-						{
-							lat[j]=row[i];
-						}
-						else if(col < 31 ){
-							lon[j]=row[i];
-						}
-						else if(col < 32 ){
-							alt[j]=row[i];
-						}
-						else{
-							dist[j]=row[i];
-						}
-						printf("%c",row[i]);
-						j++;
-						break;
-					}
-					j = 0;
-					break;
-			}
-		}
-		printf("\n%s\n", lat);
+		data = strtok(NULL, ",");
+		// printf("Longitude:\t%s\n", data);
 
-	}*/
+		data = strtok(NULL, ",");
 
+		data = strtok(NULL, ",");
+		// printf("Distance:\t%s\n", data);
+
+		data = strtok(NULL, ",");
+		// printf("HR:\t%s\n", data);
+		length++;
+	}
+	
 	fclose(fp);
 	// Return program success
 	return EXIT_SUCCESS;
