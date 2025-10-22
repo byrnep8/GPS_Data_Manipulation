@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define R 637100
+#define R 6371
 #define MAX_CHAR 4096
+#define PI 3.1415962
 
-int haversinCalc(int lon1, int lon2, char we, int lat1, int lat2, char ns);
+double haversinCalc(double lon1, double lon2, double lat1, double lat2);
